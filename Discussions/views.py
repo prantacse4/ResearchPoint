@@ -26,11 +26,14 @@ def home(request):
     return render(request, 'Discussions/home.html', context)
 
 
+
 def discussion(request, pk):
     thisdiscussion = Discussion.objects.get(pk=pk)
     discussion_comments = thisdiscussion.comment_set.all()
     participants = thisdiscussion.participants.all()
     if request.method == 'POST':
+        if request.user.is_authenticated == False:
+            return redirect('login')
         comment = Comment.objects.create(
             user = request.user,
             discussion = thisdiscussion,
