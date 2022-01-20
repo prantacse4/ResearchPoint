@@ -1,0 +1,86 @@
+{% extends 'main.html' %}
+
+
+{% block main %}
+
+
+
+<main class="profile-page layout mylayout3">
+  <div class="container">
+    <!-- Topics Start -->
+    {% include 'Discussions/topics_component.html' %}
+
+    <!-- Topics End -->
+
+    <!-- Room List Start -->
+    <div class="roomList">
+      <div class="profile">
+        <div class="profile__avatar">
+          <div class="avatar avatar--large active">
+            <img src="{{user.avatar.url}}" />
+          </div>
+        </div>
+        <div class="profile__info">
+          <h3>{{ user.name }}</h3>
+          <p class="m-0">@{{ user.username }}</p>
+          {% if user.institution %}
+            <p>{{ user.institution }}</p>
+          {% else %}
+            <p></p>
+          {% endif %}
+
+
+          {% if request.user == user %}
+
+          <a href="{% url 'update-user' %}" class="btn btn--main btn--pill">Edit Profile</a>
+          {% endif %}
+
+        </div>
+
+
+
+
+        {% if user.bio %}
+
+        <div class="profile__about">
+          <h3>Bio</h3>
+          <p>
+            
+            {{ user.bio|linebreaks }}
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <div class="profile__about">
+        
+      </div>
+    </div>
+      {% endif %}
+
+      
+      <div class="roomList__header">
+        <div>
+          <h2>Study Rooms Hosted by {{ user.username }}</a>
+          </h2>
+        </div>
+      </div>
+
+
+      {% include 'Discussions/feed_component.html' %}
+
+
+
+    </div>
+    <!-- Room List End -->
+
+    <!-- Activities Start -->
+    {% include 'Discussions/activity_component.html' %}
+
+    <!-- Activities End -->
+  </div>
+</main>
+
+
+
+
+{% endblock main %}

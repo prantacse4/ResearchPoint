@@ -1,0 +1,150 @@
+{% extends 'main.html' %}
+
+{% block main %}
+  
+
+<main class="auth layout">
+
+  {% if page == 'login' %}
+    
+
+  <div class="container">
+    <div class="myLayout">
+      <div class="myLayoutHeader">
+        <div class="myLayoutTitle">
+          <h3 class="text-white">Login</h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <h2 class="auth__tagline">Join ResearchPoint</h2>
+
+        <form class="form" action="" method="POST">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label  class="form-label">Username or Email address</label>
+            <input type="text" class="form-control" name="email"  required placeholder="username or name@email.com">
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Passowrd</label>
+            <input type="password" class="form-control" name="password" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+          </div>
+
+          
+          <button class="btn btn-primary">Login</button>
+
+          
+        </form>
+
+        <div class="auth__action">
+          <p>Haven't signed up yet?</p>
+          <a href="{% url 'register' %}" class="btn btn--link"><h5>Sign Up</h5></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% else %}
+
+  <div class="container">
+    <div class="myLayout">
+      <div class="myLayoutHeader">
+        <div class="myLayoutTitle">
+          <h3 class="text-white">Register</h3>
+        </div>
+      </div>
+      <div class="layout__body">
+        <h2 class="auth__tagline">Join ResearchPoint</h2>
+
+        <form class="form" action="" method="POST">
+          {% csrf_token %}
+
+          
+        
+
+          {% if myform.errors.name %}
+          <div class="alert">
+              <h5 class="my_alert_danger">{{myform.errors.name}}</h5>
+          </div>
+          {% endif %}
+
+          {% if myform.errors.username %}
+          <div class="alert">
+              <h5 class="my_alert_danger">{{myform.errors.username}}</h5>
+          </div>
+          {% endif %}
+
+          {% if myform.errors.email %}
+          <div class="alert">
+              <h5 class="my_alert_danger">{{myform.errors.email}}</h5>
+          </div>
+          {% endif %}
+
+          {% if myform.errors.password1 %}
+          <div class="alert">
+              <h5 class="my_alert_danger">{{myform.errors.password1}}</h5>
+          </div>
+          {% endif %}
+
+          {% if myform.errors.password2 %}
+          <div class="alert">
+              <h5 class="my_alert_danger">{{myform.errors.password2}}</h5>
+          </div>
+          {% endif %}
+            
+          <div class="mb-3">
+            <label  class="form-label">Join As</label>
+            <select class="form-select" name="user_type" aria-label="Default select example">
+                <option selected value="1">Normal User (Student)</option>
+                <option value="2">Researcher</option>
+              </select>
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Name</label>
+            <input type="text" class="form-control" name="name"  required placeholder="Name">
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Username</label>
+            <input type="text" class="form-control" name="username"  required placeholder="Choose an unique username">
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Email address</label>
+            <input type="email" name="email" class="form-control"  required placeholder="name@email.com">
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Passowrd</label>
+            <input type="password" class="form-control" name="password1" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+          </div>
+
+          <div class="mb-3">
+            <label  class="form-label">Confirm</label>
+            <input type="password" class="form-control" name="password2" required placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
+          </div>
+
+
+          <button class="btn btn-primary">Register</button>
+
+        </form>
+
+        <div class="auth__action">
+          <p>Already signed up?</p>
+          <a href="{% url 'login' %}" class="btn btn--link">Sign In</a>
+        </div>
+    
+      </div>
+    </div>
+  </div>
+  <br><br>
+  
+  {% endif %}
+
+</main> 
+
+
+{% endblock main %}
+  

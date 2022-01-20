@@ -1,0 +1,131 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block extracss %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+{% endblock extracss %}
+
+{% block main %}
+<br>
+<main>
+  <div class="container mydiscussions">
+    <div class="discussions ">
+      <div class="card-header myheader">
+        <div class="right">
+          <a href="{% url 'home' %}"><i class="fas fa-arrow-circle-left"></i></a>
+          <h4 class="d-flex justify-content-center"><a class="text-dark" href="{% url 'user-profile' discussion.host.id %}">{{ discussion.host.name }}'s Discussion</a></h4>
+
+        </div>
+        {% if discussion.host == request.user %}
+        <div class="left">
+          <a href="{% url 'update-discussion' discussion.id %}"><i class="far fa-edit"></i></a><a
+            href="{% url 'delete-discussion' discussion.id %}"><i class="far fa-times-circle"></i></a>
+        </div>
+        {% endif%}
+
+      </div>
+      <div class="discussion-body">
+        <div class="discussionList2">
+
+          <div class="discussionList_content">
+            <a href="{% url 'discussion' discussion.id %}">{{ discussion.name }} <span class="myspan">&nbsp; &nbsp; | {{ discussion.topic.name }} | ~ {{discussion.created|timesince }} ago</span></a>
+            <hr>
+            <p>
+              {{discussion.description|linebreaks}}
+            </p>
+
+            {% if discussion.file %}
+            <p><a href="{{ discussion.file.url }}" class="text-primary download">Download attached file on this
+                content</a></p>
+            {% endif %}
+
+
+
+
+            <hr>
+            
+            {% if discussion_comments.count > 0 %}
+              
+            <div class="room__conversation">
+              <div class="threads scroll">
+    
+                {% for comment in discussion_comments %}
+    
+                <div class="thread">
+                  <div class="thread__top">
+                    <div class="thread__author">
+                      <a href="{% url 'user-profile' comment.user.id %}" class="thread__authorInfo">
+                        <div class="avatar avatar--small">
+                          <img src="{{ comment.user.avatar.url }}" />
+                        </div>
+                        <span class="myauthor">@{{comment.user.username}}</span>
+                      </a>
+                    </div>
+    
+                    {% if request.user == comment.user %}
+                    <a href="{% url 'delete-comment' comment.id %}">
+                      <div class="thread__delete">
+                        <i class="far fa-times-circle"></i>
+                      </div>
+                    </a>
+                    {% endif %}
+    
+    
+                  </div>
+                  <div>
+                    <p>{{ comment.body|linebreaks }}</p>
+                  </div>
+              <p class="myp">~ {{comment.created|timesince}} ago</p>
+
+                </div>
+    
+                {% endfor %}
+    
+              </div>
+            </div>
+            {% endif %}
+
+
+            <div class="mycomment">
+              <form action="" method="POST">
+                {% csrf_token %}
+                <input name="body" class="form-control" required placeholder="Write your comment here..." />
+
+                <button class="btn btn-primary text-white mt-2">Reply to Join</button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="participants">
+      <div class="card-header myheader">
+        <h4>Participants ({{participants.count}}) </h4>
+      </div>
+
+        <div class="mycommentcard">
+  
+          {% for user in participants %}
+          <a href="{% url 'user-profile' user.id %}" class="myparticipant">
+            <div class="avatar avatar--medium">
+              <img src="{{ user.avatar.url }}" />
+            </div>
+            <p class="usernamecomment">
+              {{user.name}}
+              <span>@{{user.username}}</span>
+            </p>
+          </a>
+          {% endfor %}
+  
+        </div>
+    </div>
+  </div>
+  <br><br>
+</main>
+
+
+
+{% endblock main %}

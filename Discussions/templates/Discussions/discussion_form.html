@@ -1,0 +1,105 @@
+{% extends 'main.html' %}
+
+{% block main %}
+
+
+<main class="create-room layout">
+    <div class="container">
+        <div class="myLayout">
+            <div class="myLayoutHeader">
+                <div class="myLayoutTitle">
+                    <a href="{% url 'home' %}">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                            viewBox="0 0 32 32">
+                            <title>arrow-left</title>
+                            <path
+                                d="M13.723 2.286l-13.723 13.714 13.719 13.714 1.616-1.611-10.96-10.96h27.625v-2.286h-27.625l10.965-10.965-1.616-1.607z">
+                            </path>
+                        </svg>
+                    </a>
+                    <h3 class="text-white">Create/Update Discussion Topic</h3>
+                </div>
+            </div>
+            <div class="layout__body">
+
+                {% if form.errors.name %}
+                <div class="alert">
+                    <h5 class="my_alert_danger">{{form.errors.name}}</h5>
+                </div>
+                {% endif %}
+                
+                {% if form.errors.topic.name %}
+                <div class="alert">
+                    <h5 class="my_alert_danger">{{form.errors.topic.name}}</h5>
+                </div>
+                {% endif %}
+
+
+                {% if request.user.is_researcher == True %}
+                <form class="form" action="" method="post" enctype="multipart/form-data">
+                {% else %}
+                <form class="form" action="" method="post">
+                {% endif %}
+                        {% csrf_token %}
+
+                        <div class="form__group">
+                            <label for="room_topic">Enter Discussion Topic</label>
+                            <input type="text" value="{{ discussion.topic.name}}" maxlength="50" name="topic" required
+                                list="topic-list">
+                            <datalist id="topic-list">
+                                <select id="room_topic">
+
+                                    {% for topic in topics %}
+                                    <option value="{{ topic.name }}">{{topic.name}}</option>
+
+                                    {% endfor %}
+
+
+                                </select>
+                            </datalist>
+                        </div>
+
+                        <div class="form__group">
+                            <label for="room_name">Discussion Title</label>
+                            {{form.name}}
+                        </div>
+
+                        <div class="form__group">
+                            <label for="room_description">Discussion Description</label>
+                            {{form.description}}
+                        </div>
+
+
+
+                        {% if request.user.is_researcher == True %}
+                        <div class="form__group myform">
+                            <label for="room_description">Upload File</label>
+
+
+                            {% if discussion.file %}
+                            Currently <a href="{{ discussion.file.url }}">{{ discussion.file }}</a>
+                            {% endif %}
+                            <input type="file" name="file">
+
+
+                        </div>
+                        {% endif %}
+
+
+
+
+
+
+                        <div class="form__action">
+                            <a class="btn btn-warning" href="{% url 'home' %}">Cancel</a>
+                            <button class="btn btn--main" type="submit">Submit</button>
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <br>
+</main>
+
+
+{% endblock main %}

@@ -1,0 +1,35 @@
+{% extends 'main.html' %}
+
+{% block main %}
+    
+
+<main class="delete-item layout">
+    <div class="container">
+        <div class="myLayout">
+            <div class="myLayoutHeader">
+                <div class="myLayoutTitle">
+                    <a href="{{request.META.HTTP_REFERER}}">
+                        <i class="fas fa-arrow-circle-left myback"></i>
+                    </a>
+                    <h3 ><a href="{{request.META.HTTP_REFERER}}" class="text-white">Back</a></h3>
+                </div>
+            </div>
+            <div class="layout__body">
+                <div class="form">
+                    <div class="form__group">
+                        <p>Sorry! 404 NOT FOUND</p>
+                    </div>
+                   
+                    <div class="for__group">
+                        <a href="{% url 'home' %}" class="btn btn--main">GO BACK</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+{% endblock main %}
+    
